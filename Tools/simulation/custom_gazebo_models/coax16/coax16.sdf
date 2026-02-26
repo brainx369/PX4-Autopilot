@@ -1,0 +1,145 @@
+<?xml version='1.0' ?>
+<sdf version='1.6'>
+  <model name='coax16'>
+    <static>false</static>
+    <pose>0 0 0.3 0 0 0</pose>
+
+    <link name='base_link'>
+      <inertial>
+        <mass>15.0</mass>
+        <inertia>
+          <ixx>1.5</ixx><ixy>0</ixy><ixz>0</ixz>
+          <iyy>1.5</iyy><iyz>0</iyz>
+          <izz>2.5</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_col'>
+        <geometry><box><size>1.4 0.4 0.2</size></box></geometry>
+      </collision>
+      <visual name='base_vis'>
+        <geometry><box><size>1.4 0.4 0.2</size></box></geometry>
+        <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material>
+      </visual>
+
+      <visual name='a0v'><pose>0.75 0.3 0 0 0 0.6</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+      <visual name='a1v'><pose>0.75 -0.3 0 0 0 -0.6</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+      <visual name='a2v'><pose>0.35 0.5 0 0 0 1.57</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+      <visual name='a3v'><pose>-0.35 0.5 0 0 0 1.57</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+      <visual name='a4v'><pose>0.35 -0.5 0 0 0 -1.57</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+      <visual name='a5v'><pose>-0.35 -0.5 0 0 0 -1.57</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+      <visual name='a6v'><pose>-0.75 0.3 0 0 0 2.5</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+      <visual name='a7v'><pose>-0.75 -0.3 0 0 0 -2.5</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
+
+      <visual name='m0v'><pose>1.02 0.47 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
+      <visual name='m1v'><pose>1.02 -0.47 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
+      <visual name='m2v'><pose>0.35 0.8 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
+      <visual name='m3v'><pose>-0.35 0.8 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
+      <visual name='m4v'><pose>0.35 -0.8 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
+      <visual name='m5v'><pose>-0.35 -0.8 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
+      <visual name='m6v'><pose>-1.02 0.47 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
+      <visual name='m7v'><pose>-1.02 -0.47 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
+    </link>
+
+    <link name='imu_link'>
+      <pose>0 0 0 0 0 0</pose>
+      <inertial><mass>0.01</mass><inertia><ixx>1e-5</ixx><iyy>1e-5</iyy><izz>1e-5</izz></inertia></inertial>
+    </link>
+    <joint name='imu_joint' type='revolute'><child>imu_link</child><parent>base_link</parent><axis><limit><lower>0</lower><upper>0</upper></limit><xyz>0 0 1</xyz></axis></joint>
+
+    <link name='p0t'><pose>1.02 0.47 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
+    <link name='p0b'><pose>1.02 0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+    <link name='p1t'><pose>1.02 -0.47 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
+    <link name='p1b'><pose>1.02 -0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+    <link name='p2t'><pose>0.35 0.8 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
+    <link name='p2b'><pose>0.35 0.8 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+    <link name='p3t'><pose>-0.35 0.8 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
+    <link name='p3b'><pose>-0.35 0.8 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+    <link name='p4t'><pose>0.35 -0.8 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
+    <link name='p4b'><pose>0.35 -0.8 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+    <link name='p5t'><pose>-0.35 -0.8 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
+    <link name='p5b'><pose>-0.35 -0.8 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+    <link name='p6t'><pose>-1.02 0.47 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
+    <link name='p6b'><pose>-1.02 0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+    <link name='p7t'><pose>-1.02 -0.47 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
+    <link name='p7b'><pose>-1.02 -0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+
+    <joint name='jr0t' type='revolute'><parent>base_link</parent><child>p0t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr0b' type='revolute'><parent>base_link</parent><child>p0b</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr1t' type='revolute'><parent>base_link</parent><child>p1t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr1b' type='revolute'><parent>base_link</parent><child>p1b</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr2t' type='revolute'><parent>base_link</parent><child>p2t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr2b' type='revolute'><parent>base_link</parent><child>p2b</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr3t' type='revolute'><parent>base_link</parent><child>p3t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr3b' type='revolute'><parent>base_link</parent><child>p3b</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr4t' type='revolute'><parent>base_link</parent><child>p4t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr4b' type='revolute'><parent>base_link</parent><child>p4b</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr5t' type='revolute'><parent>base_link</parent><child>p5t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr5b' type='revolute'><parent>base_link</parent><child>p5b</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr6t' type='revolute'><parent>base_link</parent><child>p6t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr6b' type='revolute'><parent>base_link</parent><child>p6b</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr7t' type='revolute'><parent>base_link</parent><child>p7t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr7b' type='revolute'><parent>base_link</parent><child>p7b</child><axis><xyz>0 0 1</xyz></axis></joint>
+
+    <plugin name='m0' filename='libgazebo_motor_model.so'><jointName>jr0t</jointName><linkName>p0t</linkName><motorNumber>0</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m1' filename='libgazebo_motor_model.so'><jointName>jr0b</jointName><linkName>p0b</linkName><motorNumber>1</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m2' filename='libgazebo_motor_model.so'><jointName>jr1t</jointName><linkName>p1t</linkName><motorNumber>2</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m3' filename='libgazebo_motor_model.so'><jointName>jr1b</jointName><linkName>p1b</linkName><motorNumber>3</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m4' filename='libgazebo_motor_model.so'><jointName>jr2t</jointName><linkName>p2t</linkName><motorNumber>4</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m5' filename='libgazebo_motor_model.so'><jointName>jr2b</jointName><linkName>p2b</linkName><motorNumber>5</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m6' filename='libgazebo_motor_model.so'><jointName>jr3t</jointName><linkName>p3t</linkName><motorNumber>6</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m7' filename='libgazebo_motor_model.so'><jointName>jr3b</jointName><linkName>p3b</linkName><motorNumber>7</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m8' filename='libgazebo_motor_model.so'><jointName>jr4t</jointName><linkName>p4t</linkName><motorNumber>8</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m9' filename='libgazebo_motor_model.so'><jointName>jr4b</jointName><linkName>p4b</linkName><motorNumber>9</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m10' filename='libgazebo_motor_model.so'><jointName>jr5t</jointName><linkName>p5t</linkName><motorNumber>10</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m11' filename='libgazebo_motor_model.so'><jointName>jr5b</jointName><linkName>p5b</linkName><motorNumber>11</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m12' filename='libgazebo_motor_model.so'><jointName>jr6t</jointName><linkName>p6t</linkName><motorNumber>12</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m13' filename='libgazebo_motor_model.so'><jointName>jr6b</jointName><linkName>p6b</linkName><motorNumber>13</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m14' filename='libgazebo_motor_model.so'><jointName>jr7t</jointName><linkName>p7t</linkName><motorNumber>14</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m15' filename='libgazebo_motor_model.so'><jointName>jr7b</jointName><linkName>p7b</linkName><motorNumber>15</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+
+  <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
+  <robotNamespace/>
+  <imuSubTopic>/imu</imuSubTopic>
+  <magSubTopic>/mag</magSubTopic>
+  <baroSubTopic>baro</baroSubTopic>
+  <gpsSubTopic>/gps</gpsSubTopic>
+  <mavlink_addr>INADDR_ANY</mavlink_addr>
+  <mavlink_tcp_port>4560</mavlink_tcp_port>
+  <use_tcp>true</use_tcp>
+  <is_inputs_reversed>false</is_inputs_reversed>
+  <qgc_addr>INADDR_ANY</qgc_addr>
+  <qgc_udp_port>14550</qgc_udp_port>
+  <sdk_addr>INADDR_ANY</sdk_addr>
+  <sdk_udp_port>14540</sdk_udp_port>
+  <hil_mode>false</hil_mode>
+  <hil_state_level>false</hil_state_level>
+  <send_vision_estimation>false</send_vision_estimation>
+  <send_odometry>false</send_odometry>
+  <enable_lockstep>true</enable_lockstep>
+  <use_bundle>false</use_bundle>
+    <control_channels>
+      <channel name="rotor0"><input_index>0</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor1"><input_index>1</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor2"><input_index>2</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor3"><input_index>3</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor4"><input_index>4</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor5"><input_index>5</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor6"><input_index>6</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor7"><input_index>7</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor8"><input_index>8</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor9"><input_index>9</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor10"><input_index>10</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor11"><input_index>11</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor12"><input_index>12</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor13"><input_index>13</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor14"><input_index>14</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+      <channel name="rotor15"><input_index>15</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
+    </control_channels>
+  </plugin>
+
+    <plugin name='imu_plugin' filename='libgazebo_imu_plugin.so'><robotNamespace/><linkName>imu_link</linkName><imuTopic>/imu</imuTopic></plugin>
+    <plugin name='mag_plugin' filename='libgazebo_magnetometer_plugin.so'><robotNamespace/><pubRate>20</pubRate><magTopic>/mag</magTopic></plugin>
+    <plugin name='baro_plugin' filename='libgazebo_barometer_plugin.so'><robotNamespace/><pubRate>10</pubRate><baroTopic>baro</baroTopic></plugin>
+    <plugin name='gps_plugin' filename='libgazebo_gps_plugin.so'><robotNamespace/><gpsTopic>/gps</gpsTopic></plugin>
+  </model>
+</sdf>

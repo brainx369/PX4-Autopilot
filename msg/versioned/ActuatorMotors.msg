@@ -12,5 +12,5 @@ uint16 reversible_flags  # [-] Bitset indicating which motors are configured to 
 
 uint8 ACTUATOR_FUNCTION_MOTOR1 = 101 #
 
-uint8 NUM_CONTROLS = 12  #
-float32[12] control      # [@range -1, 1] Normalized thrust. where 1 means maximum positive thrust, -1 maximum negative (if not supported by the output, <0 maps to NaN). NaN maps to disarmed (stop the motors)
+uint8 NUM_CONTROLS = 16  #
+float32[16] control      # [@range -1, 1] Normalized thrust. where 1 means maximum positive thrust, -1 maximum negative (if not supported by the output, <0 maps to NaN). NaN maps to disarmed (stop the motors)
