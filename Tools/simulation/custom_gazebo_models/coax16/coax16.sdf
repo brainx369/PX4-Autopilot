@@ -6,7 +6,7 @@
 
     <link name='base_link'>
       <inertial>
-        <mass>15.0</mass>
+        <mass>100.0</mass>
         <inertia>
           <ixx>1.5</ixx><ixy>0</ixy><ixz>0</ixz>
           <iyy>1.5</iyy><iyz>0</iyz>
@@ -20,6 +20,10 @@
         <geometry><box><size>1.4 0.4 0.2</size></box></geometry>
         <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material>
       </visual>
+      <velocity_decay>
+        <linear>0.2</linear>
+        <angular>0.2</angular>
+      </velocity_decay>
 
       <visual name='a0v'><pose>0.75 0.3 0 0 0 0.6</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
       <visual name='a1v'><pose>0.75 -0.3 0 0 0 -0.6</pose><geometry><box><size>0.6 0.04 0.03</size></box></geometry><material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material></visual>
@@ -40,11 +44,35 @@
       <visual name='m7v'><pose>-1.02 -0.47 0 0 0 0</pose><geometry><cylinder><radius>0.05</radius><length>0.12</length></cylinder></geometry><material><ambient>0.54 0.27 0.07 1</ambient><diffuse>0.54 0.27 0.07 1</diffuse></material></visual>
     </link>
 
-    <link name='imu_link'>
-      <pose>0 0 0 0 0 0</pose>
-      <inertial><mass>0.01</mass><inertia><ixx>1e-5</ixx><iyy>1e-5</iyy><izz>1e-5</izz></inertia></inertial>
-    </link>
-    <joint name='imu_joint' type='revolute'><child>imu_link</child><parent>base_link</parent><axis><limit><lower>0</lower><upper>0</upper></limit><xyz>0 0 1</xyz></axis></joint>
+   <link name='imu_link'>
+  <pose>0 0 0 0 0 0</pose>
+
+  <!-- ✅ REQUIRED -->
+  <inertial>
+    <mass>0.02</mass>
+    <inertia>
+      <ixx>1e-5</ixx>
+      <iyy>1e-5</iyy>
+      <izz>1e-5</izz>
+    </inertia>
+  </inertial>
+
+  <!-- ✅ GPS SENSOR -->
+  <sensor name="gps" type="gps">
+    <pose>0 0 0 0 0 0</pose>
+    <update_rate>10.0</update_rate>
+    <gps>
+      <fix_type>3</fix_type>
+    </gps>
+    <plugin name="gps_plugin" filename="libgazebo_gps_plugin.so">
+      <robotNamespace></robotNamespace>
+      <!-- <topic>/gps</topic> -->
+      <gpsTopic>/gazebo/default/coax16/imu_link/gps</gpsTopic>
+    </plugin>
+  </sensor>
+
+</link>
+    <joint name='imu_joint' type='fixed'><child>imu_link</child><parent>base_link</parent><axis><limit><lower>0</lower><upper>0</upper></limit><xyz>0 0 1</xyz></axis></joint>
 
     <link name='p0t'><pose>1.02 0.47 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
     <link name='p0b'><pose>1.02 0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
@@ -63,6 +91,7 @@
     <link name='p7t'><pose>-1.02 -0.47 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
     <link name='p7b'><pose>-1.02 -0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
 
+    
     <joint name='jr0t' type='revolute'><parent>base_link</parent><child>p0t</child><axis><xyz>0 0 1</xyz></axis></joint>
     <joint name='jr0b' type='revolute'><parent>base_link</parent><child>p0b</child><axis><xyz>0 0 1</xyz></axis></joint>
     <joint name='jr1t' type='revolute'><parent>base_link</parent><child>p1t</child><axis><xyz>0 0 1</xyz></axis></joint>
@@ -80,29 +109,30 @@
     <joint name='jr7t' type='revolute'><parent>base_link</parent><child>p7t</child><axis><xyz>0 0 1</xyz></axis></joint>
     <joint name='jr7b' type='revolute'><parent>base_link</parent><child>p7b</child><axis><xyz>0 0 1</xyz></axis></joint>
 
-    <plugin name='m0' filename='libgazebo_motor_model.so'><jointName>jr0t</jointName><linkName>p0t</linkName><motorNumber>0</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
-    <plugin name='m1' filename='libgazebo_motor_model.so'><jointName>jr0b</jointName><linkName>p0b</linkName><motorNumber>1</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
-    <plugin name='m2' filename='libgazebo_motor_model.so'><jointName>jr1t</jointName><linkName>p1t</linkName><motorNumber>2</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
-    <plugin name='m3' filename='libgazebo_motor_model.so'><jointName>jr1b</jointName><linkName>p1b</linkName><motorNumber>3</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
-    <plugin name='m4' filename='libgazebo_motor_model.so'><jointName>jr2t</jointName><linkName>p2t</linkName><motorNumber>4</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
-    <plugin name='m5' filename='libgazebo_motor_model.so'><jointName>jr2b</jointName><linkName>p2b</linkName><motorNumber>5</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
-    <plugin name='m6' filename='libgazebo_motor_model.so'><jointName>jr3t</jointName><linkName>p3t</linkName><motorNumber>6</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
-    <plugin name='m7' filename='libgazebo_motor_model.so'><jointName>jr3b</jointName><linkName>p3b</linkName><motorNumber>7</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
-    <plugin name='m8' filename='libgazebo_motor_model.so'><jointName>jr4t</jointName><linkName>p4t</linkName><motorNumber>8</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
-    <plugin name='m9' filename='libgazebo_motor_model.so'><jointName>jr4b</jointName><linkName>p4b</linkName><motorNumber>9</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
-    <plugin name='m10' filename='libgazebo_motor_model.so'><jointName>jr5t</jointName><linkName>p5t</linkName><motorNumber>10</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
-    <plugin name='m11' filename='libgazebo_motor_model.so'><jointName>jr5b</jointName><linkName>p5b</linkName><motorNumber>11</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
-    <plugin name='m12' filename='libgazebo_motor_model.so'><jointName>jr6t</jointName><linkName>p6t</linkName><motorNumber>12</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
-    <plugin name='m13' filename='libgazebo_motor_model.so'><jointName>jr6b</jointName><linkName>p6b</linkName><motorNumber>13</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
-    <plugin name='m14' filename='libgazebo_motor_model.so'><jointName>jr7t</jointName><linkName>p7t</linkName><motorNumber>14</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>cw</turningDirection></plugin>
-    <plugin name='m15' filename='libgazebo_motor_model.so'><jointName>jr7b</jointName><linkName>p7b</linkName><motorNumber>15</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.016</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m0' filename='libgazebo_motor_model.so'><jointName>jr0t</jointName><linkName>p0t</linkName><motorNumber>0</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m1' filename='libgazebo_motor_model.so'><jointName>jr0b</jointName><linkName>p0b</linkName><motorNumber>1</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m2' filename='libgazebo_motor_model.so'><jointName>jr1t</jointName><linkName>p1t</linkName><motorNumber>2</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m3' filename='libgazebo_motor_model.so'><jointName>jr1b</jointName><linkName>p1b</linkName><motorNumber>3</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m4' filename='libgazebo_motor_model.so'><jointName>jr2t</jointName><linkName>p2t</linkName><motorNumber>4</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m5' filename='libgazebo_motor_model.so'><jointName>jr2b</jointName><linkName>p2b</linkName><motorNumber>5</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m6' filename='libgazebo_motor_model.so'><jointName>jr3t</jointName><linkName>p3t</linkName><motorNumber>6</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m7' filename='libgazebo_motor_model.so'><jointName>jr3b</jointName><linkName>p3b</linkName><motorNumber>7</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m8' filename='libgazebo_motor_model.so'><jointName>jr4t</jointName><linkName>p4t</linkName><motorNumber>8</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m9' filename='libgazebo_motor_model.so'><jointName>jr4b</jointName><linkName>p4b</linkName><motorNumber>9</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m10' filename='libgazebo_motor_model.so'><jointName>jr5t</jointName><linkName>p5t</linkName><motorNumber>10</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m11' filename='libgazebo_motor_model.so'><jointName>jr5b</jointName><linkName>p5b</linkName><motorNumber>11</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m12' filename='libgazebo_motor_model.so'><jointName>jr6t</jointName><linkName>p6t</linkName><motorNumber>12</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
+    <plugin name='m13' filename='libgazebo_motor_model.so'><jointName>jr6b</jointName><linkName>p6b</linkName><motorNumber>13</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m14' filename='libgazebo_motor_model.so'><jointName>jr7t</jointName><linkName>p7t</linkName><motorNumber>14</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
+    <plugin name='m15' filename='libgazebo_motor_model.so'><jointName>jr7b</jointName><linkName>p7b</linkName><motorNumber>15</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
 
   <plugin name='mavlink_interface' filename='libgazebo_mavlink_interface.so'>
   <robotNamespace/>
   <imuSubTopic>/imu</imuSubTopic>
   <magSubTopic>/mag</magSubTopic>
-  <baroSubTopic>baro</baroSubTopic>
-  <gpsSubTopic>/gps</gpsSubTopic>
+  <baroSubTopic>/baro</baroSubTopic>
+  <!-- <gpsSubTopic>/gps</gpsSubTopic> -->
+  <gpsSubTopic>/gazebo/default/coax16/imu_link/gps</gpsSubTopic>
   <mavlink_addr>INADDR_ANY</mavlink_addr>
   <mavlink_tcp_port>4560</mavlink_tcp_port>
   <use_tcp>true</use_tcp>
@@ -137,10 +167,13 @@
     </control_channels>
   </plugin>
 
-    <plugin name='imu_plugin' filename='libgazebo_imu_plugin.so'><robotNamespace/><linkName>imu_link</linkName><imuTopic>/imu</imuTopic></plugin>
-    <plugin name='mag_plugin' filename='libgazebo_magnetometer_plugin.so'><robotNamespace/><pubRate>20</pubRate><magTopic>/mag</magTopic></plugin>
-    <plugin name='baro_plugin' filename='libgazebo_barometer_plugin.so'><robotNamespace/><pubRate>10</pubRate><baroTopic>baro</baroTopic></plugin>
-    <plugin name='gps_plugin' filename='libgazebo_gps_plugin.so'><robotNamespace/><gpsTopic>/gps</gpsTopic></plugin>
+    <plugin name='imu_plugin' filename='libgazebo_imu_plugin.so'><robotNamespace></robotNamespace><linkName>imu_link</linkName><imuTopic>/imu</imuTopic></plugin>
+    <plugin name='mag_plugin' filename='libgazebo_magnetometer_plugin.so'><robotNamespace></robotNamespace><pubRate>20</pubRate><magTopic>/mag</magTopic></plugin>
+    <plugin name='baro_plugin' filename='libgazebo_barometer_plugin.so'><robotNamespace></robotNamespace><pubRate>50</pubRate><baroTopic>/baro</baroTopic></plugin>
+    <!--<plugin name='gps_plugin' filename='libgazebo_gps_plugin.so'><robotNamespace></robotNamespace><gpsTopic>/gps</gpsTopic></plugin> -->
+   
+
+  
   </model>
   
 </sdf>
