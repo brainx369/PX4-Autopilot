@@ -106,10 +106,10 @@
     <link name='p6t'><pose>-1.02 0.47 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
     <link name='p6b'><pose>-1.02 0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
     <link name='p7t'><pose>-1.02 -0.47 0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_ccw.dae</uri></mesh></geometry><material><ambient>0 1 0 1</ambient><diffuse>0 1 0 1</diffuse></material></visual></link>
-    <link name='p7b'><pose>-1.02 -0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link>
+    <link name='p7b'><pose>-1.02 -0.47 -0.07 0 0 0</pose><visual name='v'><geometry><mesh><uri>model://iris/meshes/iris_prop_cw.dae</uri></mesh></geometry><material><ambient>1 0 0 1</ambient><diffuse>1 0 0 1</diffuse></material></visual></link> 
 
     
-    <joint name='jr0t' type='revolute'><parent>base_link</parent><child>p0t</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <!--<joint name='jr0t' type='revolute'><parent>base_link</parent><child>p0t</child><axis><xyz>0 0 1</xyz></axis></joint>
     <joint name='jr0b' type='revolute'><parent>base_link</parent><child>p0b</child><axis><xyz>0 0 1</xyz></axis></joint>
     <joint name='jr1t' type='revolute'><parent>base_link</parent><child>p1t</child><axis><xyz>0 0 1</xyz></axis></joint>
     <joint name='jr1b' type='revolute'><parent>base_link</parent><child>p1b</child><axis><xyz>0 0 1</xyz></axis></joint>
@@ -124,7 +124,136 @@
     <joint name='jr6t' type='revolute'><parent>base_link</parent><child>p6t</child><axis><xyz>0 0 1</xyz></axis></joint>
     <joint name='jr6b' type='revolute'><parent>base_link</parent><child>p6b</child><axis><xyz>0 0 1</xyz></axis></joint>
     <joint name='jr7t' type='revolute'><parent>base_link</parent><child>p7t</child><axis><xyz>0 0 1</xyz></axis></joint>
-    <joint name='jr7b' type='revolute'><parent>base_link</parent><child>p7b</child><axis><xyz>0 0 1</xyz></axis></joint>
+    <joint name='jr7b' type='revolute'><parent>base_link</parent><child>p7b</child><axis><xyz>0 0 1</xyz></axis></joint>-->
+
+        <!-- ROTOR JOINTS -->
+<joint name='jr0t' type='revolute'>
+  <parent>base_link</parent><child>p0t</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr0b' type='revolute'>
+  <parent>base_link</parent><child>p0b</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr1t' type='revolute'>
+  <parent>base_link</parent><child>p1t</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr1b' type='revolute'>
+  <parent>base_link</parent><child>p1b</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr2t' type='revolute'>
+  <parent>base_link</parent><child>p2t</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr2b' type='revolute'>
+  <parent>base_link</parent><child>p2b</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr3t' type='revolute'>
+  <parent>base_link</parent><child>p3t</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr3b' type='revolute'>
+  <parent>base_link</parent><child>p3b</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr4t' type='revolute'>
+  <parent>base_link</parent><child>p4t</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr4b' type='revolute'>
+  <parent>base_link</parent><child>p4b</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr5t' type='revolute'>
+  <parent>base_link</parent><child>p5t</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr5b' type='revolute'>
+  <parent>base_link</parent><child>p5b</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr6t' type='revolute'>
+  <parent>base_link</parent><child>p6t</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr6b' type='revolute'>
+  <parent>base_link</parent><child>p6b</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr7t' type='revolute'>
+  <parent>base_link</parent><child>p7t</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
+
+<joint name='jr7b' type='revolute'>
+  <parent>base_link</parent><child>p7b</child>
+  <axis><xyz>0 0 1</xyz>
+    <limit><lower>-1e16</lower><upper>1e16</upper></limit>
+    <dynamics><damping>0</damping><friction>0</friction></dynamics>
+  </axis>
+</joint>
 
     <plugin name='m0' filename='libgazebo_motor_model.so'><jointName>jr0t</jointName><linkName>p0t</linkName><motorNumber>0</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>ccw</turningDirection></plugin>
     <plugin name='m1' filename='libgazebo_motor_model.so'><jointName>jr0b</jointName><linkName>p0b</linkName><motorNumber>1</motorNumber><motorConstant>8.5e-04</motorConstant><momentConstant>0.02</momentConstant><turningDirection>cw</turningDirection></plugin>
@@ -163,6 +292,7 @@
   <send_odometry>false</send_odometry>
   <enable_lockstep>true</enable_lockstep>
   <use_bundle>false</use_bundle>
+
     <control_channels>
       <channel name="rotor0"><input_index>0</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
       <channel name="rotor1"><input_index>1</input_index><input_offset>0</input_offset><input_scaling>1000</input_scaling><zero_position_disarmed>0</zero_position_disarmed><zero_position_armed>0</zero_position_armed><joint_control_type>velocity</joint_control_type></channel>
@@ -186,14 +316,12 @@
     <plugin name='imu_plugin' filename='libgazebo_imu_plugin.so'><robotNamespace></robotNamespace><linkName>imu_link</linkName><imuTopic>/imu</imuTopic> <updateRate>400</updateRate></plugin>
     <plugin name='mag_plugin' filename='libgazebo_magnetometer_plugin.so'><robotNamespace></robotNamespace><pubRate>20</pubRate><magTopic>/mag</magTopic></plugin>
     <plugin name='baro_plugin' filename='libgazebo_barometer_plugin.so'><robotNamespace></robotNamespace><pubRate>50</pubRate><baroTopic>/baro</baroTopic></plugin> 
-   <plugin name="gazebo_gps" filename="libgazebo_gps_plugin.so">
+    <plugin name="gazebo_gps" filename="libgazebo_gps_plugin.so">
     <robotNamespace>/</robotNamespace>
     <linkName>imu_link</linkName>
    <gpsTopic>/gps</gpsTopic>
   </plugin>
    
-
-  
   </model>
   
 </sdf>
