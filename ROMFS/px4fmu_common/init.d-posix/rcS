@@ -373,3 +373,7 @@ fi
 
 mavlink boot_complete
 replay trystart
+# ================= ENABLE FULL LOGGING =================
+#param set SDLOG_MODE 1
+#param set SDLOG_PROFILE 131
+

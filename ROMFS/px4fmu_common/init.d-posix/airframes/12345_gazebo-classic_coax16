@@ -1,7 +1,6 @@
-
 #!/bin/sh
 #
-# @name Coaxial 8-Arm 16-Motor Air Taxi
+# @name Coaxial 8-Arm 16-Motor Air Taxi (FIXED - NO MOTOR DROPOUT)
 # @type Multirotor
 # @class Octocopter
 #
@@ -10,14 +9,8 @@
 set PX4_SIM_MODEL coax16
 
 # ============================================================
-# 1. EKF & SENSOR STABILITY (The "Anti-Hallucination" Fix)
+# 1. EKF & SENSOR STABILITY
 # ============================================================
-# We set these FIRST so the EKF doesn't drift during the boot sequence
-
-# Ensure EKF2 is looking for GPS
-param set-default EKF2_GPS_CTRL 7    # Horizontal, Vertical, and Velocity check
-# ============================================================
-# It enables EKF2 and fuses GPS + baro, no external vision, and multi-IMU.
 param set EKF2_EN 1
 param set EKF2_BARO_CTRL 1
 param set EKF2_GPS_CTRL 7
@@ -26,64 +19,80 @@ param set EKF2_RNG_CTRL 0
 param set EKF2_IMU_CTRL 7
 param set EKF2_MULTI_IMU 3
 
-# ============================================================
-     # Enable UDP
-param set MAV_1_MODE 1         # Onboard / normal
-   # Matches plugin
-param set MAV_1_BROADCAST 1    # Required for localhost UDP
-# ============================================================
+param set MAV_1_MODE 1
+param set MAV_1_BROADCAST 1
 
-param set MC_YAWRATE_I 0.05
-
-param set-default EKF2_ACC_NOISE 0.8
-param set-default EKF2_GYR_NOISE 0.1
-param set-default EKF2_GBIAS_INIT 0.001
-param set-default EKF2_MAG_TYPE 3  # Use Gyro for heading (prevents Toilet Bowling)
+param set EKF2_ACC_NOISE 0.8
+param set EKF2_GYR_NOISE 0.1
+param set EKF2_GBIAS_INIT 0.001
+param set EKF2_MAG_TYPE 1
+param set SENS_EN_MAG 1
 
 # ============================================================
-# 2. TUNING & SENSITIVITY
+# 2. STABILITY & CONTROL TUNING
 # ============================================================
-param set-default MC_ROLLRATE_P 0.05
-param set-default MC_PITCHRATE_P 0.05
-param set-default MC_YAWRATE_P 0.08
-param set-default MPC_Z_P 0.5
-param set-default THR_MDL_FAC 0.3
+param set MC_ROLLRATE_P  0.03
+param set MC_PITCHRATE_P 0.03
+param set MC_YAWRATE_P   0.05
+param set MC_YAWRATE_I   0.05
+
+param set MPC_Z_P 0.5
+
+# Prevent motor cutoff
+
+param set THR_MDL_FAC 0.0
+
+param set MPC_THR_HOVER 0.6
+param set MPC_THR_MAX 0.95
+param set MPC_THR_MIN 0.2
+
+#Force ALL motors to be used
+param set CA_METHOD 1
+param set CA_SVCS 0
+
+
+#FIX 4: Add thrust linearization
+param set THR_MDL_FAC 0.3
+
+#FIX 5: Reduce aggressiveness of allocator
+param set CA_R_MIN 0.05
+
 
 # ============================================================
-# 3. CONTROL ALLOCATOR & GEOMETRY
+# 3. CONTROL ALLOCATOR (CRITICAL FIX)
 # ============================================================
 param set CA_ROTOR_COUNT 16
 param set CA_AIRFRAME 0
 
-# Top Rotors (Index 0-7) - KM 0.05 = CCW
-param set CA_ROTOR0_PX  0.400; param set CA_ROTOR0_PY  0.000; param set CA_ROTOR0_KM  0.05
-param set CA_ROTOR1_PX  0.283; param set CA_ROTOR1_PY  0.283; param set CA_ROTOR1_KM -0.05
-param set CA_ROTOR2_PX  0.000; param set CA_ROTOR2_PY  0.400; param set CA_ROTOR2_KM  0.05
-param set CA_ROTOR3_PX -0.283; param set CA_ROTOR3_PY  0.283; param set CA_ROTOR3_KM -0.05
-param set CA_ROTOR4_PX -0.400; param set CA_ROTOR4_PY  0.000; param set CA_ROTOR4_KM  0.05
-param set CA_ROTOR5_PX -0.283; param set CA_ROTOR5_PY -0.283; param set CA_ROTOR5_KM -0.05
-param set CA_ROTOR6_PX  0.000; param set CA_ROTOR6_PY -0.400; param set CA_ROTOR6_KM  0.05
-param set CA_ROTOR7_PX  0.283; param set CA_ROTOR7_PY -0.283; param set CA_ROTOR7_KM -0.05
+# ---------- TOP ROTORS (0–7) ----------
+param set CA_ROTOR0_PX  0.400; param set CA_ROTOR0_PY  0.000; param set CA_ROTOR0_PZ  0.07; param set CA_ROTOR0_KM  0.1
+param set CA_ROTOR1_PX  0.283; param set CA_ROTOR1_PY  0.283; param set CA_ROTOR1_PZ  0.07; param set CA_ROTOR1_KM -0.1
+param set CA_ROTOR2_PX  0.000; param set CA_ROTOR2_PY  0.400; param set CA_ROTOR2_PZ  0.07; param set CA_ROTOR2_KM  0.1
+param set CA_ROTOR3_PX -0.283; param set CA_ROTOR3_PY  0.283; param set CA_ROTOR3_PZ  0.07; param set CA_ROTOR3_KM -0.1
+param set CA_ROTOR4_PX -0.400; param set CA_ROTOR4_PY  0.000; param set CA_ROTOR4_PZ  0.07; param set CA_ROTOR4_KM  0.1
+param set CA_ROTOR5_PX -0.283; param set CA_ROTOR5_PY -0.283; param set CA_ROTOR5_PZ  0.07; param set CA_ROTOR5_KM -0.1
+param set CA_ROTOR6_PX  0.000; param set CA_ROTOR6_PY -0.400; param set CA_ROTOR6_PZ  0.07; param set CA_ROTOR6_KM  0.1
+param set CA_ROTOR7_PX  0.283; param set CA_ROTOR7_PY -0.283; param set CA_ROTOR7_PZ  0.07; param set CA_ROTOR7_KM -0.1
 
-# Bottom Rotors (Index 8-15) - Coaxial Opposite Direction
-param set CA_ROTOR8_PX  0.400; param set CA_ROTOR8_PY  0.000; param set CA_ROTOR8_KM -0.05
-param set CA_ROTOR9_PX  0.283; param set CA_ROTOR9_PY  0.283; param set CA_ROTOR9_KM  0.05
-param set CA_ROTOR10_PX 0.000; param set CA_ROTOR10_PY  0.400; param set CA_ROTOR10_KM -0.05
-param set CA_ROTOR11_PX -0.283; param set CA_ROTOR11_PY  0.283; param set CA_ROTOR11_KM  0.05
-param set CA_ROTOR12_PX -0.400; param set CA_ROTOR12_PY  0.000; param set CA_ROTOR12_KM -0.05
-param set CA_ROTOR13_PX -0.283; param set CA_ROTOR13_PY -0.283; param set CA_ROTOR13_KM  0.05
-param set CA_ROTOR14_PX 0.000; param set CA_ROTOR14_PY -0.400; param set CA_ROTOR14_KM -0.05
-param set CA_ROTOR15_PX 0.283; param set CA_ROTOR15_PY -0.283; param set CA_ROTOR15_KM  0.05
+# ---------- BOTTOM ROTORS (8–15) ----------
+param set CA_ROTOR8_PX   0.400; param set CA_ROTOR8_PY   0.000; param set CA_ROTOR8_PZ  -0.07; param set CA_ROTOR8_KM  -0.1
+param set CA_ROTOR9_PX   0.283; param set CA_ROTOR9_PY   0.283; param set CA_ROTOR9_PZ  -0.07; param set CA_ROTOR9_KM   0.1
+param set CA_ROTOR10_PX  0.000; param set CA_ROTOR10_PY  0.400; param set CA_ROTOR10_PZ -0.07; param set CA_ROTOR10_KM -0.1
+param set CA_ROTOR11_PX -0.283; param set CA_ROTOR11_PY  0.283; param set CA_ROTOR11_PZ -0.07; param set CA_ROTOR11_KM  0.1
+param set CA_ROTOR12_PX -0.400; param set CA_ROTOR12_PY  0.000; param set CA_ROTOR12_PZ -0.07; param set CA_ROTOR12_KM -0.1
+param set CA_ROTOR13_PX -0.283; param set CA_ROTOR13_PY -0.283; param set CA_ROTOR13_PZ -0.07; param set CA_ROTOR13_KM  0.1
+param set CA_ROTOR14_PX  0.000; param set CA_ROTOR14_PY -0.400; param set CA_ROTOR14_PZ -0.07; param set CA_ROTOR14_KM -0.1
+param set CA_ROTOR15_PX  0.283; param set CA_ROTOR15_PY -0.283; param set CA_ROTOR15_PZ -0.07; param set CA_ROTOR15_KM  0.1
 
 # ============================================================
 # 4. OUTPUT MAPPING
 # ============================================================
-# This maps the geometry above to the SITL motor channels
-#for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
 for i in $(seq 1 16)
 do
     param set PWM_MAIN_FUNC${i} $((100 + i))
 done
 
-#set MAV_TYPE 2
+# ============================================================
+# 5. VEHICLE TYPE
+# ============================================================
 set MAV_TYPE 14
